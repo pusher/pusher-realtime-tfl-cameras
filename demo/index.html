@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pusher Realtime Data - TfL Traffic Cameras</title>
+
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .camera-feed {
+      position: relative;
+      width: 100px;
+      z-index: 0;
+    }
+
+      .camera-feed:hover {
+        position: absolute;
+        width: 352px;
+        z-index: 1;
+      }
+  </style>
+</head>
+<body>
+  <div class="cameras"></div>
+
+  <script src="http://js.pusher.com/2.2/pusher.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+  <script src="pusher-tfl-cameras.js"></script>
+</body>
+</html>
