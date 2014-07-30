@@ -1,3 +1,8 @@
+// TODO: Requesting individual camera images will result in faster updates
+// - Seems camera feed is updated less often than the images are
+// - Comparing new image to existing image to work out if it has changed
+// - Could perhaps use headers for checking, then request full image if updated
+
 var _ = require("underscore");
 var request = require("request");
 var JXON = require("jxon");
@@ -33,13 +38,28 @@ var tflURL = "http://www.tfl.gov.uk/tfl/livetravelnews/trafficcams/cctv/jamcams-
 var lastUpdated;
 var cameras = {};
 
+var staleCameras;
+var errorRetryTime = 2000;
+
 var onResponse = function(error, response, body) {
   if (error || response.statusCode != 200) {
-    console.log("Request failed");
+    console.log("Request failed, re-attempting");
     console.log(error);
     console.log(response);
+
+    errorRetryTime *= 1.5;
+
+    if (errorRetryTime > 30000) {
+      errorRetryTime = 30000;
+    }
+
+    setTimeout(requestCameras, errorRetryTime);
+
     return;
   }
+
+  errorTimeout = 2000;
+  staleCameras = 0;
 
   var jxon = JXON.build(new DOMParser().parseFromString(body).documentElement);
   // console.log(JSON.stringify(jxon, null, 2));
@@ -63,16 +83,27 @@ var onResponse = function(error, response, body) {
 
   _.each(cameraList.camera, function(camera, index) {
     // Don't use inactive cameras
-    if (!camera["@available"]) {
-      return;
-    }
+    // if (!camera["@available"]) {
+    //   return;
+    // }
 
     // console.log(camera["@id"], index);
     // console.log("http://tfl.gov.uk" + cameraList.rooturl + camera.file);
-    output.push(camera.file.replace(".jpg", ""));
+
+    if (!cameras[camera["@id"]]) {
+      cameras[camera["@id"]] = camera;
+      output.push(camera.file.replace(".jpg", ""));
+    // Only update cameras that have changed
+    } else if (camera.capturetime - cameras[camera["@id"]].capturetime > 0) {
+      output.push(camera.file.replace(".jpg", ""));
+    // Camera hasn't been updated
+    } else {
+      staleCameras++;
+    }
   });
 
-  console.log(output.length + " cameras");
+  console.log(output.length + " updated cameras");
+  console.log(staleCameras + " stale cameras");
   
   var data = output.join("|");
 
