@@ -73,7 +73,7 @@ var onResponse = function(error, response, body) {
     return;
   }
 
-  console.log(header);
+  // console.log(header);
 
   lastUpdated = header.publishdatetime;
 
@@ -107,7 +107,7 @@ var onResponse = function(error, response, body) {
   
   var data = output.join("|");
 
-  console.log(data);
+  // console.log(data);
 
   pusher.trigger("cameras", "cameras-update", data);
 
