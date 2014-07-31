@@ -1,5 +1,5 @@
 {
-  "name": "pusher-realtime-data-tfl-cameras",
+  "name": "pusher-realtime-tfl-cameras",
   "version": "0.0.1",
   "description": "Realtime API wrapper for TfL's traffic cameras",
   "main": "app.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/pusher/pusher-realtime-data-tfl-cameras"
+    "url": "http://github.com/pusher/pusher-realtime-tfl-cameras"
   },
   "author": "Robin Hawkes <robin@pusher.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pusher/pusher-realtime-data-tfl-cameras/issues"
+    "url": "https://github.com/pusher/pusher-realtime-tfl-cameras/issues"
   },
-  "homepage": "https://github.com/pusher/pusher-realtime-data-tfl-cameras",
+  "homepage": "https://github.com/pusher/pusher-realtime-tfl-cameras",
   "dependencies": {
     "request": "~2.39.0",
     "jxon": "~1.0.0",
