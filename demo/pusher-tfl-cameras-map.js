@@ -44,8 +44,6 @@ var cameraMarkerContent = function(id) {
   return '<img src="' + (tflURL + id + '.jpg?' + Date.now()) + '" class="camera-feed" height="288" width="352">';
 }
 
-// var cameras = document.querySelector(".cameras");
-
 var pusher = new Pusher("f1b8177ecbc7a66de0c7");
 var channel = pusher.subscribe("cameras");
 channel.bind("cameras-update", function(data) {
