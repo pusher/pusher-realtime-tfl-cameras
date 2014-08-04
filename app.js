@@ -8,6 +8,8 @@ var request = require("request");
 var JXON = require("jxon");
 var DOMParser = require("xmldom").DOMParser;
 
+var silent = false;
+
 var config;
 try {
   config = require("./config");
@@ -70,7 +72,7 @@ app.get("/cameras", function(req, res) {
 });
 
 // Open server on specified port
-console.log("Starting Express server");
+if (!silent) console.log("Starting Express server");
 app.listen(process.env.PORT || 5001);
 
 // --------------------------------------------------------------------
@@ -84,11 +86,14 @@ var cameras = {};
 var staleCameras;
 var errorRetryTime = 2000;
 
+var scrapeTimer;
+var scrapeRequest;
+
 var onResponse = function(error, response, body) {
   if (error || response.statusCode != 200) {
-    console.log("Request failed, re-attempting");
-    console.log(error);
-    console.log(response);
+    if (!silent) console.log("Request failed, re-attempting");
+    if (!silent) console.log(error);
+    if (!silent) console.log(response);
 
     errorRetryTime *= 1.5;
 
@@ -96,7 +101,7 @@ var onResponse = function(error, response, body) {
       errorRetryTime = 30000;
     }
 
-    setTimeout(requestCameras, errorRetryTime);
+    scrapeTimer = setTimeout(requestCameras, errorRetryTime);
 
     return;
   }
@@ -111,8 +116,8 @@ var onResponse = function(error, response, body) {
   var header = jxon.header;
 
   if (header.publishdatetime - lastUpdated === 0) {
-    console.log("No change");
-    setTimeout(requestCameras, 10000);
+    if (!silent) console.log("No change");
+    scrapeTimer = setTimeout(requestCameras, 10000);
     return;
   }
 
@@ -145,8 +150,8 @@ var onResponse = function(error, response, body) {
     }
   });
 
-  console.log(output.length + " updated cameras");
-  console.log(staleCameras + " stale cameras");
+  if (!silent) console.log(output.length + " updated cameras");
+  if (!silent) console.log(staleCameras + " stale cameras");
   
   var data = output.join("|");
 
@@ -154,11 +159,31 @@ var onResponse = function(error, response, body) {
 
   pusher.trigger("cameras", "cameras-update", data);
 
-  setTimeout(requestCameras, 10000);
+  scrapeTimer = setTimeout(requestCameras, 10000);
 };
 
 var requestCameras = function() {
-  request(tflURL, onResponse);
+  if (!silent) console.log("------------------------------------------");
+  if (!silent) console.log(new Date().toString());
+
+  if (!silent) console.log("Clearing scrape timer");
+  clearTimeout(scrapeTimer);
+
+  scrapeRequest = request(tflURL, onResponse);
 };
 
 requestCameras();
+
+// Capture uncaught errors
+process.on("uncaughtException", function(err) {
+  console.log(err);
+
+  if (!silent) console.log("Attempting to restart scraper");
+
+  if (!silent) console.log("Aborting previous request");
+  if (scrapeRequest) {
+    scrapeRequest.abort();
+  }
+
+  requestCameras();
+});
