@@ -75,9 +75,9 @@ var subscribeToCameras = function() {
 
       // Perform action when image has finished loading
       img.onload = function() {
-        ctx.fillStyle = "#" + Math.floor(Math.random()*16777215).toString(16);
-        ctx.fillRect(cameraPositions[id][0] * 352, cameraPositions[id][1] * 288, 352, 288);
-        // ctx.drawImage(img, cameraPositions[id][0] * 352, cameraPositions[id][1] * 288);
+        // ctx.fillStyle = "#" + Math.floor(Math.random()*16777215).toString(16);
+        // ctx.fillRect(cameraPositions[id][0] * 352, cameraPositions[id][1] * 288, 352, 288);
+        ctx.drawImage(img, cameraPositions[id][0] * 352, cameraPositions[id][1] * 288);
         img = undefined;
       };
 
