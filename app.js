@@ -142,7 +142,7 @@ var onResponse = function(error, response, body) {
       cameras[camera["@id"]] = camera;
       output.push(camera.file.replace(".jpg", ""));
     // Only update cameras that have changed or that have a broken date
-    } else if (camera.capturetime - cameras[camera["@id"]].capturetime > 0 || (camera.capturetime.getFullYear() === 1970 && camera["@available"]) {
+    } else if (camera.capturetime - cameras[camera["@id"]].capturetime > 0 || (camera.capturetime.getFullYear() === 1970 && camera["@available"])) {
       output.push(camera.file.replace(".jpg", ""));
     // Camera hasn't been updated
     } else {
