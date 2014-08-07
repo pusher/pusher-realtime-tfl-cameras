@@ -90,7 +90,7 @@ var scrapeTimer;
 var scrapeRequest;
 
 var onResponse = function(error, response, body) {
-  if (error || response.statusCode != 200) {
+  if (error) {
     if (!silent) console.log("Request failed, re-attempting");
     if (!silent) console.log(error);
     if (!silent) console.log(response);
@@ -169,7 +169,12 @@ var requestCameras = function() {
   if (!silent) console.log("Clearing scrape timer");
   clearTimeout(scrapeTimer);
 
-  scrapeRequest = request(tflURL, onResponse);
+  var options = {
+    url: tflURL,
+    timeout: 10000
+  };
+
+  scrapeRequest = request(options, onResponse);
 };
 
 requestCameras();
