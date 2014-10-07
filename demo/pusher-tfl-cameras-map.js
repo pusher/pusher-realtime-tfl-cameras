@@ -28,7 +28,7 @@ L.tileLayer("https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png", {
   attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
     '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
     'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-  id: 'examples.map-i86knfo3'
+  id: 'examples.map-i87786ca'
 }).addTo(map);
 
 $.getJSON("/cameras", function(cameras) {
