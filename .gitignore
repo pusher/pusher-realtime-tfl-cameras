@@ -55,3 +55,6 @@ node_modules
 .lock-wscript
 
 config.js
+cameras/
+cameras*/
+camera/

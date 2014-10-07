@@ -7,6 +7,19 @@
 
 var tflURL = "http://tfl.gov.uk/tfl/livetravelnews/trafficcams/cctv/";
 
+// Multiple markers hack
+// https://github.com/Leaflet/Leaflet/issues/2201
+L.Map = L.Map.extend({
+  openPopup: function(popup) {
+    // this.closePopup();  // just comment this
+    this._popup = popup;
+
+    return this.addLayer(popup).fire('popupopen', {
+      popup: this._popup
+    });
+  }
+});
+
 var map = L.map("map").setView([51.505, -0.09], 13);
 var cameraMarkers = {};
 

@@ -157,7 +157,7 @@ var onResponse = function(error, response, body) {
 
   // console.log(data);
 
-  pusher.trigger("cameras", "cameras-update", data);
+  // pusher.trigger("cameras", "cameras-update", data);
 
   scrapeTimer = setTimeout(requestCameras, 10000);
 };
