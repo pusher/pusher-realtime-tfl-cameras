@@ -13,8 +13,42 @@
       height: 100%;
     }
 
+    body {
+      color: #fff;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
     #map {
       height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+    }
+
+    header {
+      background: #333;
+      border-bottom: 1px solid #000;
+      padding: 15px 20px;
+    }
+
+    header a {
+      color: #999;
+      text-decoration: none;
+    }
+
+      header a:hover {
+        text-decoration: underline;
+      }
+
+    h1 span {
+      color: #76A7D7;
+      font-size: 0.4em;
+      font-style: italic;
+      font-weight: normal;
+      margin-left: 10px;
+      text-transform: uppercase;
     }
   </style>
 
@@ -23,6 +57,10 @@
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css">
 </head>
 <body>
+  <header>
+    <h1>Realtime TfL Traffic Cameras<span><a href="http://pusher.com">powered by Pusher</a></span></h1>
+  </header>
+
   <div id="map"></div>
 
   <script src="//js.pusher.com/2.2/pusher.min.js"></script>
