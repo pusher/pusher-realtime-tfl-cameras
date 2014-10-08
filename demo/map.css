@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  color: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+#map {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+  #map .leaflet-control-zoom {
+    margin-top: 100px;
+  }
+
+header {
+  background: #333;
+  border-bottom: 1px solid #000;
+  padding: 15px 20px;
+  position: relative;
+  z-index: 10;
+}
+
+header a {
+  color: #999;
+  text-decoration: none;
+}
+
+  header a:hover {
+    text-decoration: underline;
+  }
+
+h1 span {
+  color: #76A7D7;
+  font-size: 0.4em;
+  font-style: italic;
+  font-weight: normal;
+  margin-left: 10px;
+  text-transform: uppercase;
+}
