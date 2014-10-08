@@ -9,26 +9,27 @@
       padding: 0;
     }
 
-    body {
-      background: #222;
+    html, body {
+      height: 100%;
     }
 
-    .cameras {
-      box-shadow: 0 0 300px #000;
-      left: 50%;
-      position: absolute;
-      top: 50%;
-      transform: translateX(-50%) translateY(-50%) scale(0.01);
-      width: 14080px;
+    #map {
+      height: 100%;
     }
   </style>
+
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css">
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css">
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css">
 </head>
 <body>
-  <canvas class="cameras"></canvas>
+  <div id="map"></div>
 
   <script src="//js.pusher.com/2.2/pusher.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.1.4/zepto.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
-  <script src="pusher-tfl-cameras.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+  <script src="pusher-tfl-cameras-map.js"></script>
 </body>
 </html>
