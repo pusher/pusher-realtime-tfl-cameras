@@ -21,14 +21,6 @@
     "jxon": "~1.0.0",
     "xmldom": "~0.1.19",
     "underscore": "~1.6.0",
-    "pusher": "~1.0.0",
-    "errorhandler": "~1.1.1",
-    "body-parser": "~1.5.2",
-    "express": "~4.7.2",
-    "mkdirp": "~0.5.0",
-    "netpbm": "~1.0.2",
-    "gifencoder": "~1.0.3",
-    "png-file-stream": "~1.0.0",
-    "minimist": "~1.1.0"
+    "pusher": "~1.0.0"
   }
 }
