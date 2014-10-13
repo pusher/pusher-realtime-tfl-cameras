@@ -65,7 +65,7 @@ app.use(errorHandler({
 
 // Ping
 app.get("/ping", function(req, res) {
-  res.sendStatus(200);
+  res.send(200);
 });
 
 // Get all cameras
