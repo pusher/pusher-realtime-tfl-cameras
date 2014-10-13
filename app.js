@@ -50,14 +50,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-// Retrieve latest posts
-app.get("/ping", function(req, res) {
-  res.sendStatus(200);
-});
-
-// Sentry
-app.use(raven.middleware.express(ravenClient));
-
 // Simple logger
 app.use(function(req, res, next){
   if (!silent) console.log("%s %s", req.method, req.url);
@@ -66,10 +58,20 @@ app.use(function(req, res, next){
 });
 
 // Error handler
-// app.use(errorHandler({
-//   dumpExceptions: true,
-//   showStack: true
-// }));
+app.use(errorHandler({
+  dumpExceptions: true,
+  showStack: true
+}));
+
+// Ping
+app.get("/ping", function(req, res) {
+  res.sendStatus(200);
+});
+
+// Get all cameras
+app.get("/cameras", function(req, res) {
+  res.json(cameras);
+});
 
 // Open server on specified port
 if (!silent) console.log("Starting Express server");
