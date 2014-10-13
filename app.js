@@ -22,6 +22,12 @@ try {
   }
 }
 
+var express = require("express");
+var bodyParser = require("body-parser");
+var errorHandler = require("errorhandler");
+
+var app = express();
+
 
 // --------------------------------------------------------------------
 // SET UP PUSHER
@@ -32,6 +38,42 @@ var pusher = new Pusher({
   key: config.key,
   secret: config.secret
 });
+
+
+// --------------------------------------------------------------------
+// SET UP EXPRESS
+// --------------------------------------------------------------------
+
+// Parse application/json and application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+
+// Retrieve latest posts
+app.get("/ping", function(req, res) {
+  res.sendStatus(200);
+});
+
+// Sentry
+app.use(raven.middleware.express(ravenClient));
+
+// Simple logger
+app.use(function(req, res, next){
+  if (!silent) console.log("%s %s", req.method, req.url);
+  if (!silent) console.log(req.body);
+  next();
+});
+
+// Error handler
+// app.use(errorHandler({
+//   dumpExceptions: true,
+//   showStack: true
+// }));
+
+// Open server on specified port
+if (!silent) console.log("Starting Express server");
+app.listen(process.env.PORT || 5001);
 
 
 // --------------------------------------------------------------------
