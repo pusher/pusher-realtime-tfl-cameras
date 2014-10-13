@@ -18,15 +18,49 @@ try {
   config = {
     app_id: process.env.PUSHER_APP_ID,
     key: process.env.PUSHER_APP_KEY,
-    secret: process.env.PUSHER_APP_SECRET
+    secret: process.env.PUSHER_APP_SECRET,
+    sentry_dsl: process.env.SENTRY_DSL
   }
 }
+
+var raven = require("raven");
+var ravenClient = new raven.Client(config.sentry_dsl);
 
 var express = require("express");
 var bodyParser = require("body-parser");
 var errorHandler = require("errorhandler");
 
 var app = express();
+
+
+// --------------------------------------------------------------------
+// SENTRY
+// --------------------------------------------------------------------
+
+ravenClient.patchGlobal(function(sentryStatus, err) {
+  if (!silent) console.log("Attempting to restart scraper");
+
+  if (!silent) console.log("Aborting previous request");
+  if (scrapeRequest) {
+    scrapeRequest.abort();
+  }
+
+  requestCameras();
+});
+
+// Capture uncaught errors
+// process.on("uncaughtException", function(err) {
+//   console.log(err);
+
+//   if (!silent) console.log("Attempting to restart scraper");
+
+//   if (!silent) console.log("Aborting previous request");
+//   if (scrapeRequest) {
+//     scrapeRequest.abort();
+//   }
+
+//   requestCameras();
+// });
 
 
 // --------------------------------------------------------------------
@@ -50,19 +84,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-// Simple logger
-app.use(function(req, res, next){
-  if (!silent) console.log("%s %s", req.method, req.url);
-  if (!silent) console.log(req.body);
-  next();
-});
-
-// Error handler
-app.use(errorHandler({
-  dumpExceptions: true,
-  showStack: true
-}));
-
 // Ping
 app.get("/ping", function(req, res) {
   res.send(200);
@@ -72,9 +93,25 @@ app.get("/ping", function(req, res) {
 app.get("/cameras", function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Content-Type");
-  
+
   res.json(cameras);
 });
+
+// Sentry
+app.use(raven.middleware.express(ravenClient));
+
+// Simple logger
+app.use(function(req, res, next){
+  if (!silent) console.log("%s %s", req.method, req.url);
+  if (!silent) console.log(req.body);
+  next();
+});
+
+// Error handler
+// app.use(errorHandler({
+//   dumpExceptions: true,
+//   showStack: true
+// }));
 
 // Open server on specified port
 if (!silent) console.log("Starting Express server");
@@ -184,17 +221,3 @@ var requestCameras = function() {
 };
 
 requestCameras();
-
-// Capture uncaught errors
-process.on("uncaughtException", function(err) {
-  console.log(err);
-
-  if (!silent) console.log("Attempting to restart scraper");
-
-  if (!silent) console.log("Aborting previous request");
-  if (scrapeRequest) {
-    scrapeRequest.abort();
-  }
-
-  requestCameras();
-});
