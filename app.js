@@ -70,6 +70,9 @@ app.get("/ping", function(req, res) {
 
 // Get all cameras
 app.get("/cameras", function(req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  
   res.json(cameras);
 });
 
