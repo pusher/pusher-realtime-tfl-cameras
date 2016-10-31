@@ -152,9 +152,13 @@ var onResponse = function(error, response, body) {
   errorTimeout = 2000;
   staleCameras = 0;
 
+  console.log("About to build jxon");
+
   var jxon = JXON.build(new DOMParser().parseFromString(body).documentElement);
   // console.log(JSON.stringify(jxon, null, 2));
   //console.log(JSON.stringify(jxon));
+
+  console.log("jxon: ", jxon);
 
   var header = jxon.header;
 
@@ -216,12 +220,12 @@ var requestCameras = function() {
     clearTimeout(scrapeTimer);
   }
 
-  if (!silent) console.log("Here are our options: ", options);
-
   var options = {
     url: tflURL,
     timeout: 10000
   };
+
+  if (!silent) console.log("Here are our options: ", options);
 
   scrapeRequest = request(options, onResponse);
 };
