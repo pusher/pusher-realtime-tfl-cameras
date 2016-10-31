@@ -195,7 +195,7 @@ var onResponse = function(error, response, body) {
 
   if (!silent) console.log(output.length + " updated cameras");
   if (!silent) console.log(staleCameras + " stale cameras");
-  
+
   var data = output.join("|");
 
   // console.log(data);
@@ -209,8 +209,14 @@ var requestCameras = function() {
   if (!silent) console.log("------------------------------------------");
   if (!silent) console.log(new Date().toString());
 
-  if (!silent) console.log("Clearing scrape timer");
-  clearTimeout(scrapeTimer);
+  if (!silent) console.log("Clearing scrape timer: ", scrapeTimer);
+
+  if (typeof scrapeTimer === 'undefined' || scrapeTimer === null) {
+  } else {
+    clearTimeout(scrapeTimer);
+  }
+
+  if (!silent) console.log("Here are our options: ", options);
 
   var options = {
     url: tflURL,
