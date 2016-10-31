@@ -121,7 +121,8 @@ app.listen(process.env.PORT || 5001);
 // --------------------------------------------------------------------
 // TfL
 // --------------------------------------------------------------------
-var tflURL = "http://www.tfl.gov.uk/tfl/livetravelnews/trafficcams/cctv/jamcams-camera-list.xml";
+var tflURL = "http://content.tfl.gov.uk/camera-list.xml";
+// var tflURL = "http://www.tfl.gov.uk/tfl/livetravelnews/trafficcams/cctv/jamcams-camera-list.xml";
 
 var lastUpdated;
 var cameras = {};
